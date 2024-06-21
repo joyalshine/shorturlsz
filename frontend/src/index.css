@@ -1,3 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+*{
+  scrollbar-color: #ff0000 !important;
+}
+
+
+body::-webkit-scrollbar {
+  width: 10px;
+  /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: rgb(217, 217, 217);
+  /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(173, 172, 172);
+  /* color of the scroll thumb */
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+  border: 3px solid rgb(173, 172, 172);
+  /* creates padding around scroll thumb */
+}
+
+
+
+#noteInput::-webkit-scrollbar {
+  width: 8px;
+  /* width of the entire scrollbar */
+}
+
+#noteInput::-webkit-scrollbar-track {
+  background: rgb(217, 217, 217);
+  border-radius: 10px;
+  padding: 10px;
+  /* color of the tracking area */
+}
+#noteInput::-webkit-scrollbar-thumb {
+  background-color: rgb(173, 172, 172);
+  /* color of the scroll thumb */
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+  border: 3px solid rgb(173, 172, 172);
+  /* creates padding around scroll thumb */
+}
