@@ -1,5 +1,4 @@
 import React from 'react'
-import logo from '../../../public/logo.png'
 
 function Header({showFeature}) {
     return (
@@ -10,7 +9,7 @@ function Header({showFeature}) {
                         <span className="sr-only">Your Company</span>
                         <img
                             className="lg:h-7 sm:h-5 h-5 w-auto"
-                            src={logo}
+                            src="/logo.png"
                             alt=""
                         />
                     </a>

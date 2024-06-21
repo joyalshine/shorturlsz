@@ -3,7 +3,7 @@ import { API_URL } from "../assets/dataAssets"
 export const verifyURLFromDBlink = async (URL) => {
     try {
         let response = await fetch(
-            "http://localhost:8000/link/verifyURL",
+            `${API_URL}/link/verifyURL`,
             {
                 headers: { "Content-Type": "application/json" },
                 method: "POST",

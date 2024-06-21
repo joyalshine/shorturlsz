@@ -3,7 +3,7 @@ import { API_URL } from "../assets/dataAssets"
 export const verifyURLFromDBNote = async (URL) => {
     try {
         let response = await fetch(
-            "http://localhost:8000/note/verifyURL",
+            `${API_URL}/note/verifyURL`,
             {
                 headers: { "Content-Type": "application/json" },
                 method: "POST",

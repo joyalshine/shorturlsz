@@ -3,7 +3,7 @@ import { API_URL } from "../assets/dataAssets"
 export const verifyURLFromDB = async (URL) => {
     try {
         let response = await fetch(
-            "http://localhost:8000/chat/verifyURL",
+            `${API_URL}/chat/verifyURL`,
             {
                 headers: { "Content-Type": "application/json" },
                 method: "POST",

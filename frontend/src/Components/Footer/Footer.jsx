@@ -1,5 +1,4 @@
 import React from 'react'
-import logo from '../../../public/logo.png'
 
 
 
@@ -10,7 +9,7 @@ function Footer() {
                 <a href="#" className="flex justify-center items-center text-2xl font-semibold text-gray-900 dark:text-white">
                     <img
                         className="lg:h-7 sm:h-5 h-5 w-auto"
-                        src={logo}
+                        src="/logo.png"
                         alt=""
                     />
                 </a>

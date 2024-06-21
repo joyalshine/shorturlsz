@@ -1,3 +1,3 @@
-export const API_URL = "http://localhost:8000"
+export const API_URL = ""
 export const WEBSITE_URL = "shorturlz.in/"
 // export const WEBSITE_URL = "http://shorturlz.in/"

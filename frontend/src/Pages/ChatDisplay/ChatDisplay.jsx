@@ -13,7 +13,6 @@ import useListenMessages from '../../hooks/useListenMessages';
 
 import ChatBubble from '../../Components/ChatBubble/ChatBubble';
 import Header from '../../Components/Header/Header';
-import logo from '../../../public/logo.png'
 import Footer from '../../Components/Footer/Footer';
 
 const navigation = [
