@@ -153,7 +153,7 @@ function Chat() {
       <Header />
 
 
-      <div className="mx-3 rounded-md sm:mx-auto max-w-xl py-3 sm:px-6 sm:py-5 lg:px-8 flex  mt-[4rem] sm:mt-20 items-center justify-center bg-white" style={{ boxShadow: '0 1px 4px #ccc' }}>
+      <div className="mx-3 rounded-md sm:mx-auto max-w-xl py-3 px-3 sm:px-6 sm:py-5 lg:px-8 flex  mt-[4rem] sm:mt-20 items-center justify-center bg-white" style={{ boxShadow: '0 1px 4px #ccc' }}>
 
         <form className='min-w-[70%] sm:w-[min-content] '>
 

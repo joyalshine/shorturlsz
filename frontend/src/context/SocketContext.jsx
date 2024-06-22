@@ -14,7 +14,7 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if(chatId){
-      const socket = io("https://shorturlz.onrender.com/", {
+      const socket = io("https://shorturlz.in/", {
         query: {
           chatId
         }

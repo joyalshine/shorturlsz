@@ -9,7 +9,7 @@ const ChatBubble = (props) => {
                     <div className="flex gap-2.5 mb-0">
                         {extend == false ? <img src={'/avatar_1.png'} alt="Shanay image" className="w-10 h-10" /> : <></>}
                         <div className={extend ? "grid pl-12" : "grid"}>
-                            {extend == false ? <h5 className="text-gray-900 text-sm font-semibold leading-snug pb-1">Shanay cruz</h5> : <></>}
+                            {extend == false ? <h5 className="text-gray-900 text-sm font-semibold leading-snug pb-1">Anonymous</h5> : <></>}
                             <div className="w-max grid">
                                 <div className="px-3.5 py-2 bg-gray-100 rounded justify-start  items-center gap-3 inline-flex">
                                     <h5 className="text-gray-900 text-sm font-normal leading-snug">{message}</h5>
