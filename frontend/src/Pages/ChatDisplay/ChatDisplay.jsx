@@ -14,6 +14,7 @@ import useListenMessages from '../../hooks/useListenMessages';
 import ChatBubble from '../../Components/ChatBubble/ChatBubble';
 import Header from '../../Components/Header/Header';
 import Footer from '../../Components/Footer/Footer';
+import { v4 as uuid } from "uuid";
 
 const navigation = [
 ]
@@ -35,7 +36,7 @@ function ChatDisplay() {
 
     const [newMessage, setNewMessage] = useState("")
 
-    const [cookies, setCookie] = useCookies(["user_token"]);
+    const [cookies, setCookie,removeCookie] = useCookies(["user_token"]);
     const { messageHistory, setMessageHistory } = useContext(ConversationContext)
 
     useEffect(() => {
@@ -109,24 +110,26 @@ function ChatDisplay() {
         let tokens = cookies.user_token
         if (!tokens) tokens = {}
         let expires = new Date()
-        let uniqueId = expires.getTime()
-        expires.setTime(expires.getTime() + (24 * 60 * 60 * 1000))
+        let uniqueId = uuid().substring(0,8)
+        expires.setTime(expires.getTime() + (48 * 60 * 60 * 1000))
+        removeCookie("user_token")
         if (username) {
             tokens[id] = {
                 name: username,
-                id: uniqueId
+                id: uniqueId + "%%" + username
             }
             setCookie('user_token', tokens, { path: '/', expires })
+            setUserId(uniqueId + "%%" + username)
         }
         else {
             setUsername("anonymous")
             tokens[id] = {
                 name: "anonymous",
-                id: uniqueId
+                id: uniqueId + "%%anonymous"
             }
             setCookie('user_token', tokens, { path: '/', expires })
+            setUserId(uniqueId + "%%anonymous")
         }
-        setUserId(id)
         document.getElementById('nameModal').close();
         setIsLoadingPage(false)
     }
@@ -138,8 +141,6 @@ function ChatDisplay() {
             if (status) {
                 setMessageHistory([...messageHistory, { senderId: userId, message: newMessage, createdAt: new Date() }])
                 setNewMessage("")
-                console.log(messageHistory)
-                const scrollIntoViewOptions = { behavior: "smooth", block: "center" };
 
                 var objDiv = document.getElementById("message-container");
                 objDiv.scrollTop = objDiv.scrollHeight;
@@ -181,7 +182,7 @@ function ChatDisplay() {
                                     const extend = indx == 0 ? false : messageHistory[indx - 1].senderId == item.senderId
                                     const date = new Date(item.createdAt)
                                     const time = (date.getHours() > 12 ? date.getHours() - 12 : date.getHours()) + ":" + (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) + " " + (date.getHours() > 12 ? "PM" : "AM")
-                                    return (<ChatBubble self={item.senderId == userId} message={item.message} extend={extend} time={time} />)
+                                    return (<ChatBubble self={item.senderId == userId} message={item.message} extend={extend} time={time} sender={item.senderId.split("%%")[1]} />)
                                 }))}
                             </div>
                             <div className="w-full h-14 flex pr-4 pl-4 pb-4 mt-2">

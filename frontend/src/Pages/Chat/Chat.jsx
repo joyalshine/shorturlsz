@@ -66,49 +66,58 @@ function Chat() {
   const [copied, setCopied] = useState(false)
 
   const submit = async () => {
-    let dataToSend = {}
-    dataToSend["customURL"] = customURL;
-    if (customURL) {
-      if (URL.trim().length == 0) {
-        seturlErrorMsg("Enter some URL")
-        seturlError(true);
-        return
-      }
-      if (urlVerified) {
-        dataToSend["url"] = URL;
-      }
-      else {
-        let response = await verifyURLFromDB(URL)
-        if (!response.verified) {
-          seturlErrorMsg("URL already taken")
-          setURL("")
+    try {
+      setisLoadingSubmit(true)
+      let dataToSend = {}
+      dataToSend["customURL"] = customURL;
+      if (customURL) {
+        if (URL.trim().length == 0) {
+          seturlErrorMsg("Enter some URL")
           seturlError(true);
           return
         }
-        else {
+        if (urlVerified) {
           dataToSend["url"] = URL;
-          seturlError(false);
+        }
+        else {
+          let response = await verifyURLFromDB(URL)
+          if (!response.verified) {
+            seturlErrorMsg("URL already taken")
+            setURL("")
+            seturlError(true);
+            return
+          }
+          else {
+            dataToSend["url"] = URL;
+            seturlError(false);
+          }
         }
       }
-    }
-    dataToSend["protected"] = passwordProtection;
-    if (passwordProtection) {
-      if (password != confirmPassword) {
-        setPasswordError(true)
-        setPasswordErrorMsg("Passwords does not match")
-        return;
+      dataToSend["protected"] = passwordProtection;
+      if (passwordProtection) {
+        if (password != confirmPassword) {
+          setPasswordError(true)
+          setPasswordErrorMsg("Passwords does not match")
+          return;
+        }
+        else {
+          dataToSend["password"] = password
+          setPasswordError(false)
+        }
       }
-      else {
-        dataToSend["password"] = password
-        setPasswordError(false)
-      }
-    }
 
-    const { url, status } = await createNewChatURL(dataToSend)
-    if (status) {
-      seturlVerified(false)
-      setmodalURL(WEBSITE_URL + "chat/" + url)
-      document.getElementById('my_modal_1').showModal();
+      const { url, status } = await createNewChatURL(dataToSend)
+      if (status) {
+        seturlVerified(false)
+        setmodalURL(WEBSITE_URL + "chat/" + url)
+        document.getElementById('my_modal_1').showModal();
+      }
+    }
+    catch (e) {
+      console.log(e)
+    }
+    finally {
+      setisLoadingSubmit(false)
     }
   }
 
