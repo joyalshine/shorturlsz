@@ -121,7 +121,7 @@ function Note() {
       const { url, status } = await createNewNoteURL(dataToSend)
       if (status) {
         seturlVerified(false)
-        setmodalURL(WEBSITE_URL + url)
+        setmodalURL(WEBSITE_URL + "note/" + url)
         const modal = document.getElementById('my_modal_1')
         modal.showModal()
       }

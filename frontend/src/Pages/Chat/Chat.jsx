@@ -107,7 +107,7 @@ function Chat() {
     const { url, status } = await createNewChatURL(dataToSend)
     if (status) {
       seturlVerified(false)
-      setmodalURL(WEBSITE_URL + url)
+      setmodalURL(WEBSITE_URL + "chat/" + url)
       document.getElementById('my_modal_1').showModal();
     }
   }
