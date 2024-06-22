@@ -24,6 +24,7 @@ function ChatDisplay() {
     useListenMessages()
 
     const { chatId, setChatId } = useContext(ChatIdContext)
+    const [isAuthLoadingPage, setIsAuthLoadingPage] = useState(false)
     const { socket, onlineUsers } = useContext(SocketContext)
     const [isLoadingPage, setIsLoadingPage] = useState(true)
     const [password, setPassword] = useState("")
@@ -32,11 +33,11 @@ function ChatDisplay() {
     const [passwordErrorMsg, setPasswordErrorMsg] = useState("")
     const [username, setUsername] = useState("")
     const [userId, setUserId] = useState("")
-    const [prevId, setPrevId] = useState("")
+    const [isSendBtnLoading, setIsSendBtnLoading] = useState(true)
 
     const [newMessage, setNewMessage] = useState("")
 
-    const [cookies, setCookie,removeCookie] = useCookies(["user_token"]);
+    const [cookies, setCookie, removeCookie] = useCookies(["user_token"]);
     const { messageHistory, setMessageHistory } = useContext(ConversationContext)
 
     useEffect(() => {
@@ -76,6 +77,7 @@ function ChatDisplay() {
 
 
     const authenticate = async () => {
+        setIsAuthLoadingPage(true)
         if (password.trim().length == 0) {
             setPasswordErrorMsg("Enter the password")
             setPasswordError(true)
@@ -104,13 +106,14 @@ function ChatDisplay() {
                 setPasswordError(true)
             }
         }
+        setIsAuthLoadingPage(false)
     }
 
     const setUsernameFunction = () => {
         let tokens = cookies.user_token
         if (!tokens) tokens = {}
         let expires = new Date()
-        let uniqueId = uuid().substring(0,8)
+        let uniqueId = uuid().substring(0, 8)
         expires.setTime(expires.getTime() + (48 * 60 * 60 * 1000))
         removeCookie("user_token")
         if (username) {
@@ -135,6 +138,7 @@ function ChatDisplay() {
     }
 
     const sendMessage = async () => {
+        setIsSendBtnLoading(true)
         if (newMessage.trim().length == 0) { }
         else {
             const { status } = await sendNewMessage(id, userId, newMessage)
@@ -146,6 +150,7 @@ function ChatDisplay() {
                 objDiv.scrollTop = objDiv.scrollHeight;
             }
         }
+        setIsSendBtnLoading(false)
     }
 
 
@@ -187,7 +192,7 @@ function ChatDisplay() {
                             </div>
                             <div className="w-full h-14 flex pr-4 pl-4 pb-4 mt-2">
                                 <div className="w-full pl-3 pr-1 py-1 rounded-3xl border border-gray-200 items-center gap-2 inline-flex justify-between">
-                                    <form action="" className='flex w-full justify-betwwen' onSubmit={(e) => { e.preventDefault()}}>
+                                    <form action="" className='flex w-full justify-betwwen' onSubmit={(e) => { e.preventDefault() }}>
                                         <div className="flex items-center gap-2 w-full">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                                                 <g id="User Circle">
@@ -197,13 +202,16 @@ function ChatDisplay() {
                                             <input className="grow shrink basis-0 text-black text-xs font-medium leading-4 focus:outline-none" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} placeholder="Type here..." />
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <button onClick={sendMessage} type='submit' className="items-center flex px-3 py-2 bg-indigo-600 rounded-full shadow ">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                            <button onClick={sendMessage} disabled={isSendBtnLoading} type='submit' className="items-center flex px-3 py-2 bg-indigo-600 rounded-full shadow ">
+                                                {isSendBtnLoading ? <><svg aria-hidden="true" role="status" className="inline w-4 h-4 me-1 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB" />
+                                                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor" />
+                                                </svg></> : <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                                                     <g id="Send 01">
                                                         <path id="icon" d="M9.04071 6.959L6.54227 9.45744M6.89902 10.0724L7.03391 10.3054C8.31034 12.5102 8.94855 13.6125 9.80584 13.5252C10.6631 13.4379 11.0659 12.2295 11.8715 9.81261L13.0272 6.34566C13.7631 4.13794 14.1311 3.03408 13.5484 2.45139C12.9657 1.8687 11.8618 2.23666 9.65409 2.97257L6.18714 4.12822C3.77029 4.93383 2.56187 5.33664 2.47454 6.19392C2.38721 7.0512 3.48957 7.68941 5.69431 8.96584L5.92731 9.10074C6.23326 9.27786 6.38623 9.36643 6.50978 9.48998C6.63333 9.61352 6.72189 9.7665 6.89902 10.0724Z" stroke="white" strokeWidth="1.6" strokeLinecap="round" />
                                                     </g>
-                                                </svg>
-                                                <h3 className="text-white text-xs font-semibold leading-4 px-2">Send</h3>
+                                                </svg>}
+                                                <h3 className="text-white text-xs font-semibold leading-4 px-2">{isSendBtnLoading ? "Sending" : "Send"}</h3>
                                             </button>
                                         </div>
                                     </form>
@@ -284,10 +292,11 @@ function ChatDisplay() {
                     </div>
 
                     <div className="modal-action">
-                        <button onClick={setUsernameFunction} className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
-                            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                Submit
-                            </span>
+                    <button onClick={authenticate} disabled={isAuthLoadingPage} className=" cursor-pointer text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                            {isAuthLoadingPage ? <svg aria-hidden="true" role="status" className="inline w-4 h-4  text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB" />
+                                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor" />
+                            </svg> : <>Submit</>}
                         </button>
                     </div>
                 </div>

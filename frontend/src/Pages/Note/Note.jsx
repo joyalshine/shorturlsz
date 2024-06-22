@@ -367,7 +367,10 @@ function Note() {
           </div>
 
           <div className="modal-action" >
-            <button className="btn" onClick={() => window.location.reload()}>Close</button>
+            <button className="btn" onClick={() => {
+                document.getElementById('my_modal_1').close();
+                window.location.reload()
+                }}>Close</button>
           </div>
         </div>
       </dialog>

@@ -269,7 +269,10 @@ function Chat() {
 
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn" onClick={() => window.location.reload()}>Close</button>
+              <button className="btn" onClick={() => {
+                document.getElementById('my_modal_1').close();
+                window.location.reload()
+                }}>Close</button>
             </form>
           </div>
         </div>
