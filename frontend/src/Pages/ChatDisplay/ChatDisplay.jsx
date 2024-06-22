@@ -31,7 +31,7 @@ function ChatDisplay() {
     const [passwordErrorMsg, setPasswordErrorMsg] = useState("")
     const [username, setUsername] = useState("")
     const [userId, setUserId] = useState("")
-    const [isSendBtnLoading, setIsSendBtnLoading] = useState(true)
+    const [isSendBtnLoading, setIsSendBtnLoading] = useState(false)
 
     const [newMessage, setNewMessage] = useState("")
 
