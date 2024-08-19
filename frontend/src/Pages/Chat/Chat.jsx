@@ -77,10 +77,10 @@ function Chat() {
           return
         }
         if (urlVerified) {
-          dataToSend["url"] = URL;
+          dataToSend["url"] = URL.trim();
         }
         else {
-          let response = await verifyURLFromDB(URL)
+          let response = await verifyURLFromDB(URL.trim())
           if (!response.verified) {
             seturlErrorMsg("URL already taken")
             setURL("")
@@ -88,7 +88,7 @@ function Chat() {
             return
           }
           else {
-            dataToSend["url"] = URL;
+            dataToSend["url"] = URL.trim();
             seturlError(false);
           }
         }
@@ -101,7 +101,7 @@ function Chat() {
           return;
         }
         else {
-          dataToSend["password"] = password
+          dataToSend["password"] = password.trim()
           setPasswordError(false)
         }
       }

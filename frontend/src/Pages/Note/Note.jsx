@@ -79,7 +79,7 @@ function Note() {
         return
       }
       else {
-        dataToSend["data"] = textToSave;
+        dataToSend["data"] = textToSave.trim();
       }
 
       if (customURL) {
@@ -89,10 +89,10 @@ function Note() {
           return
         }
         if (urlVerified) {
-          dataToSend["url"] = URL;
+          dataToSend["url"] = URL.trim();
         }
         else {
-          let response = await verifyURLFromDBNote(URL)
+          let response = await verifyURLFromDBNote(URL.trim())
           if (!response.verified) {
             seturlErrorMsg("URL already taken")
             setURL("")
@@ -100,7 +100,7 @@ function Note() {
             return
           }
           else {
-            dataToSend["url"] = URL;
+            dataToSend["url"] = URL.trim();
             seturlError(false);
           }
         }
@@ -113,7 +113,7 @@ function Note() {
           return;
         }
         else {
-          dataToSend["password"] = password
+          dataToSend["password"] = password.trim()
           setPasswordError(false)
         }
       }

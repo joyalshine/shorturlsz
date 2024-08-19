@@ -85,7 +85,7 @@ function LinkShorten() {
         return;
       }
       else {
-        dataToSend["destination"] = urlToShrink;
+        dataToSend["destination"] = urlToShrink.trim();
       }
 
       if (customURL) {
@@ -95,10 +95,10 @@ function LinkShorten() {
           return
         }
         if (urlVerified) {
-          dataToSend["url"] = URL;
+          dataToSend["url"] = URL.trim();
         }
         else {
-          let response = await verifyURLFromDBlink(URL)
+          let response = await verifyURLFromDBlink(URL.trim())
           if (!response.verified) {
             seturlErrorMsg("URL already taken")
             setURL("")
@@ -106,7 +106,7 @@ function LinkShorten() {
             return
           }
           else {
-            dataToSend["url"] = URL;
+            dataToSend["url"] = URL.trim();
             seturlError(false);
           }
         }
@@ -119,7 +119,7 @@ function LinkShorten() {
           return;
         }
         else {
-          dataToSend["password"] = password
+          dataToSend["password"] = password.trim()
           setPasswordError(false)
         }
       }
