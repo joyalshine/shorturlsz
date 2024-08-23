@@ -28,12 +28,6 @@ app.use("/chat",chatRoutes)
 app.use("/link",linkRoutes)
 app.use("/note",noteRoutes)
 
-app.use(express.static(path.join(__dirnam,"frontend/dist")))
-
-app.get("*",(req,res) => {
-  res.sendFile(path.join(__dirnam,"frontend","dist","index.html"))
-})
-
 server.listen(PORT,async () => {
     connectToDB()
     console.log(`Server listening at Port ${PORT}`)
