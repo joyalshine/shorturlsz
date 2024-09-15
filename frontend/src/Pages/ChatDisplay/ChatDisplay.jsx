@@ -148,6 +148,7 @@ function ChatDisplay() {
             if (status) {
                 setMessageHistory([...messageHistory, { senderId: userId, message: newMessage, createdAt: new Date() }])
                 setNewMessage("")
+                console.log(messageHistory)
 
                 // var objDiv = document.getElementById("message-container");
                 // objDiv.scrollTop = objDiv.scrollHeight + 20;
