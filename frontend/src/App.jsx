@@ -22,7 +22,7 @@ function App() {
         <Route path='/note' element={<Note />} />
         <Route path='/note/:noteId' element={<NoteDisplay />} />
         <Route path='/:linkId' element={<LinkDisplay />} />
-        {/* <Route path='*' element={<PageNotFound />} /> */}
+        <Route path='*' element={<PageNotFound />} />
       </Routes>
     </>
   )
